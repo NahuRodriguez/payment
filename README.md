@@ -22,3 +22,6 @@ App React: Una vez clonado el repositorio, se deberá ingresar a la carpeta payf
   npm start
 ```
 
+## Algunas propuestas de mejora.
+
+Mejorar la forma en que se informa el estado de la transaccion; se podria implementar algun pop-up, en el caso de exito como por error, ademas de reinicializar los datos para que el usuario pudiese generar una nueva orden de pago.

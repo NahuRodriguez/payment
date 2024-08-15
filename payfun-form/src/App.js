@@ -7,6 +7,8 @@ function PaymentForm() {
     email: '',
     amount: '',
   });
+  const [message, setMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -17,6 +19,8 @@ function PaymentForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage(null);
+    setLoading(true);
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/payment`, {
         method: 'POST',
@@ -27,16 +31,21 @@ function PaymentForm() {
       });
 
       const result = await response.json();
-      console.log(result);
+      if (response.ok) {
+        setMessage(`Pago generado exitosamente.`);
+      } else {
+        setMessage(`Error: ${result.error}`);
+      }
     } catch (error) {
-      console.error('Error submitting payment:', error);
+      setMessage('Error: ' + error.message);
     }
+    setLoading(false);
   };
 
   return (
     <form onSubmit={handleSubmit} className="form-container">
       <div>
-        <label>Nombre:</label>
+        <label>Nombre y Apellido:</label>
         <input
           type="text"
           name="name"
@@ -66,9 +75,13 @@ function PaymentForm() {
           onChange={handleChange}
           className="input-field"
           required
+          min="1" // Validación de monto minimo
         />
       </div>
-      <button type="submit" className="submit-button">Generar Pago</button>
+      <button type="submit" className="submit-button" disabled={loading}>
+        {loading ? 'Procesando...' : 'Generar Pago'}
+      </button>
+      {message && <p>{message}</p>}
     </form>
   );
 }
