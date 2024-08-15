@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const axios = require("axios");
 const bodyParser = require("body-parser");
@@ -14,7 +15,7 @@ app.post("/api/payment", async (req, res) => {
     description: "descripciòn de la orden de pago",
     amount: amount,
     currency_id: "ARS",
-    // external_transaction_id: '000891247222',
+    external_transaction_id: '0001',
     notification_url: "www.payfun.com.ar/notifications",
     payer: {
       name: name,
